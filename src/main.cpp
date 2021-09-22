@@ -12,10 +12,6 @@ void loop() {
   delay(1000);
   digitalWrite(led, LOW);
   delay(2000);
-    digitalWrite(led, LOW);
-  delay(2000);
-    digitalWrite(led, LOW);
-  delay(2000);
-  pinMode(led, OUTPUT);\pinMode(led, OUTPUT);
+   
 
 }
