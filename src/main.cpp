@@ -28,6 +28,8 @@ void feedbackErrorCorrect(){
 void loop() {
   // put your main code here, to run repeatedly:
    readPositionAngle();
+   Serial.print("current angle is: ");
+   Serial.println(readPositionAngle());
    if(readPositionAngle()<=90){
      Serial.println("adjusting motor speed");
      feedbackErrorCorrect();
@@ -36,5 +38,5 @@ void loop() {
    {
      Serial.println("Peak Overshoot,AUTOCORRECTING");
    }
-delay(50);
+delay(1000);
 }
