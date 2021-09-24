@@ -10,7 +10,7 @@ void setup() {
 
 float readPositionAngle(){
   int sensorValue = analogRead(positionValue);
-  float angle = sensorValue * (270.0 / 1023.0);
+  float angle = sensorValue * (90.0 / 1023.0);
   return angle;
 
 
@@ -19,9 +19,10 @@ void feedbackErrorCorrect(){
   float errorValue = requiredangle - readPositionAngle();
   Serial.print("error value is: ");
   Serial.println(errorValue);
-  int errorMapped = map(errorValue,0.0, 270, 0, 255);
+  int errorMapped = map(errorValue,0.0, 90.0, 0, 255);
   Serial.print("Value to be mapped : ");
   Serial.println(errorMapped);
+  Serial.println();
  analogWrite(motorspeedoutput, errorMapped);
 
 }
@@ -32,11 +33,13 @@ void loop() {
    Serial.println(readPositionAngle());
    if(readPositionAngle()<=90){
      Serial.println("adjusting motor speed");
+     Serial.println();
      feedbackErrorCorrect();
    }
    else
    {
      Serial.println("Peak Overshoot,AUTOCORRECTING");
+     Serial.println();
    }
 delay(1000);
 }
