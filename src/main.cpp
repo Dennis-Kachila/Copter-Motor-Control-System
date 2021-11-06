@@ -1,62 +1,64 @@
-#include <Arduino.h>
-int i;
-const int positionValue = A5;
-const int motorspeedoutput = 10;
-const float requiredangle = 90.0;
-void setup() {
-  Serial.begin(9600);
-  // put your setup code here, to run once:
-  pinMode(motorspeedoutput, OUTPUT);
-}
+/*
+The project involving controlling the speed of BLDC motor using a PWM signal from arduino board and a potentiometer which 
+which is connected to the arduino board and act as a feedback sensor to control the speed of the motor.
 
-float readPositionAngle(){
-  int sensorValue = analogRead(positionValue);
-  float angle = sensorValue * (270.0 / 1023.0);
-  return angle;
-
-
-}
-/*void feedbackErrorCorrect(){
-  float errorValue = requiredangle - readPositionAngle();
-  Serial.print("error value is: ");
-  Serial.println(errorValue);
-  if(errorValue)
-  int errorMapped = map(errorValue,0.0, 90.0, 255, 0);
-  Serial.print("Value to be mapped : ");
-  Serial.println(errorMapped);
-  Serial.println();
- analogWrite(motorspeedoutput, errorMapped);
-
-}
 */
+#include <Arduino.h>
+
+
+//Declaring the pins for the arduino board
+int pwmPin = 9;
+int feedbackPin = A0;
+//declare a float value for angle and set it to 0
+float angle = 0;
+
+
+void setup() {
+  // put your setup code here, to run once:
+  Serial.begin(9600);
+  pinMode(pwmPin, OUTPUT);
+  pinMode(feedbackPin, INPUT);
+}
+
+float read_feedback()
+{
+  float feedback_value = analogRead(feedbackPin);
+  return feedback_value;
+}
+
+void compare_feedback()
+{
+  float feedback_value = read_feedback();
+  if(feedback_value > angle)
+  {
+    //increase the value of pwmPin from 0 to 255 sequentially using for loop
+    for(int i = 0; i < 255; i++)
+    {
+     
+      analogWrite(pwmPin, i);
+      delay(1);
+      //check if the feedback value is greater than the angle value
+      if(feedback_value < angle)
+      {
+        //if the feedback value is greater than the angle value, break the loop
+        //print the value of feedback value and i to serial monitor
+        Serial.print("feedback value is ");
+        Serial.print(feedback_value);
+        Serial.print("\n");
+        Serial.print("i is ");
+        Serial.print(i);
+        Serial.print("\n");
+
+        break;
+      }
+    }
+  }
+  
+}
+
 void loop() {
   // put your main code here, to run repeatedly:
-   readPositionAngle();
-   Serial.print("current angle is: ");
-   Serial.println(readPositionAngle());
-   
-   if(readPositionAngle()>2){
-     Serial.println("Adjusting motor speed.....");
-     Serial.println();
-     for ( i= 45; i<=155;i++){
-
-     delay(500);
-     Serial.print("VALUE TO MOTOR OUTPUT:");
-     Serial.println(i);
-     analogWrite(motorspeedoutput,i);
-     
-     if (readPositionAngle()  >=2 && readPositionAngle()<=6){
-       analogWrite(motorspeedoutput, 150);
-       Serial.println("Motor speed and angle maintained maintained");
-     }
-     //feedbackErrorCorrect();
-   }
-   }
-   else
-   {
-     Serial.println("Peak Overshoot,AUTOCORRECTING");
-     Serial.println();
-   }
-  
-//delay(1000);
+  int feedback = analogRead(feedbackPin);
+  Serial.println(feedback);
+  analogWrite(pwmPin, feedback);
 }
