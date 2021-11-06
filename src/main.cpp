@@ -31,6 +31,8 @@ void setup() {
 float read_feedback()
 {
   float feedback_value = analogRead(feedbackPin);
+  //change to degree from 0 to 270
+  feedback_value = feedback_value / 1023 * 270;  //potentiometer rotation is from 0 to 270 degree
   return feedback_value;
 }
 
