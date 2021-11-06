@@ -10,7 +10,7 @@ which is connected to the arduino board and act as a feedback sensor to control 
 int pwmPin = 9;
 int feedbackPin = A0;
 //declare a float value for angle and set it to 0
-float angle = 0;
+float angle = 4.5;
 
 
 void setup() {
@@ -32,31 +32,39 @@ void compare_feedback()
   if(feedback_value > angle)
   {
     //increase the value of pwmPin from 0 to 255 sequentially using for loop
-    for(int i = 0; i < 255; i++)
-    {
-     
-      analogWrite(pwmPin, i);
-      delay(1);
-       Serial.print("feedback value is ");
-        Serial.print(feedback_value);
-        Serial.print("\n");
-        Serial.print("i is ");
-        Serial.print(i);
-        Serial.print("\n");
-      //check if the feedback value is greater than the angle value
-      if(feedback_value < angle)
+    
+      //use while loop to increase the value of pwmPin by 1 at a time
+      while(feedback_value > angle)
       {
-        //if the feedback value is greater than the angle value, break the loop
-        //print the value of feedback value and i to serial monitor
-        Serial.print("feedback value is ");
-        Serial.print(feedback_value);
-        Serial.print("\n");
-        Serial.print("i is ");
-        Serial.print(i);
-        Serial.print("\n");
+            analogWrite(pwmPin, i);
+            delay(100);
+            Serial.print("feedback value is ");
+              Serial.print(feedback_value);
+              Serial.print("\n");
+              Serial.print("i is ");
+              Serial.print(i);
+              Serial.print("\n");
+            //check if the feedback value is greater than the angle value
+                if(feedback_value < angle)
+                  {
+                     Serial.print("feedback value is ");
+                      Serial.print(feedback_value);
+                      Serial.print("\n");
+                      Serial.print("i is ");
+                      Serial.print(i);
+                      Serial.print("\n");
+                    //if the feedback value is greater than the angle value, make the pwmPin value constant i.e analogWrite(pwmPin, i) using a while loop
+                    while(feedback_value < angle)
+                    {
+                      analogWrite(pwmPin, i);
+                      delay(100);
+                     
+                    }
 
-        break;
-      }
+                   
+                  }
+                  //increase the value of i by 1 in the loop
+                  i++;
     }
   }
   
