@@ -37,6 +37,12 @@ void compare_feedback()
      
       analogWrite(pwmPin, i);
       delay(1);
+       Serial.print("feedback value is ");
+        Serial.print(feedback_value);
+        Serial.print("\n");
+        Serial.print("i is ");
+        Serial.print(i);
+        Serial.print("\n");
       //check if the feedback value is greater than the angle value
       if(feedback_value < angle)
       {
@@ -58,7 +64,6 @@ void compare_feedback()
 
 void loop() {
   // put your main code here, to run repeatedly:
-  int feedback = analogRead(feedbackPin);
-  Serial.println(feedback);
-  analogWrite(pwmPin, feedback);
+  compare_feedback();
+
 }
