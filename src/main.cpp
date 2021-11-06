@@ -10,6 +10,14 @@ which is connected to the arduino board and act as a feedback sensor to control 
 int pwmPin = 9;
 int feedbackPin = A0;
 //declare a float value for angle and set it to 0
+
+/*
+lemme give some context to the code . I have declared a float variable called angle and set it to 4.5 as reference value instead of 90 degree.
+this is because in my sat i was not able to turn the potentiometer to turn in the required direction i. from o to 90 as my propeller was not able to turn in the required direction.
+My propeller turned in the other direction. My initial zero value on the potentiometer was not zero but it was in the middle of the potentiometer. i.e appx 91 .
+so you have to take my 90 degree vertical position as 0 degree and vice versa.
+*/
+
 float angle = 4.5;
 
 
