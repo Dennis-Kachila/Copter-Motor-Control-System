@@ -44,6 +44,7 @@ void compare_feedback()
     //increase the value of pwmPin from 0 to 255 sequentially using for loop
     
       //use while loop to increase the value of pwmPin by 1 at a time
+      int i = 30;
       while(feedback_value > angle)
       {
             analogWrite(pwmPin, i);
